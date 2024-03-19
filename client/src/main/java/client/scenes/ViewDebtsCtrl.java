@@ -39,6 +39,7 @@ public class ViewDebtsCtrl implements Initializable {
     }
 
     public void refresh() {
-        this.event_name.setText(event.getName());
+        this.eventName.setText(event.getName());
+        this.table.setItems(FXCollections.observableArrayList("test", "test2", "test3", "test4"));
     }
 }
