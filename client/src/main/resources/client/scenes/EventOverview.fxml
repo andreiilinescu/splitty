@@ -40,6 +40,7 @@
          </columns>
       </TableView>
       <Button layoutX="289.0" layoutY="415.0" mnemonicParsing="false" text="Settle Debts" />
+      <Button fx:id="viewDebtButton" onAction="#toViewDebts" layoutX="289.0" layoutY="465.0" mnemonicParsing="false" text="View Debts" />
       <Button fx:id="backButton" layoutX="-3.0" layoutY="1.0" mnemonicParsing="false" onAction="#backToStart" prefHeight="27.0" prefWidth="57.0" text="Back" />
       <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="111.0" layoutY="103.0" onMouseClicked="#addParticipant" pickOnBounds="true" preserveRatio="true">
          <image>

@@ -53,13 +53,17 @@ public class MainCtrl {
     private Scene inviteView;
     private InviteViewCtrl inviteViewCtrl;
 
+    private Scene viewDebts;
+    private ViewDebtsCtrl viewDebtsCtrl;
+
     public void initialize(Stage primaryStage, Pair<FirstTimeCtrl, Parent> firstTime,
                            Pair<EventOverviewCtrl, Parent> eventOverview,
                            Pair<AddParticipantCtrl, Parent> addParticipant,
                            Pair<StartCtrl, Parent> start,
                            Pair<AddExpenseCtrl, Parent> addExpense,
                            Pair<InviteViewCtrl, Parent> inviteView,
-                           Pair<EditParticipantCtrl, Parent> editParticipant
+                           Pair<EditParticipantCtrl, Parent> editParticipant,
+                           Pair<ViewDebtsCtrl, Parent> viewDebts
     ) {
 
         this.primaryStage = primaryStage;
@@ -88,6 +92,9 @@ public class MainCtrl {
 
         this.inviteViewCtrl=inviteView.getKey();
         this.inviteView=new Scene(inviteView.getValue());
+
+        this.viewDebtsCtrl=viewDebts.getKey();
+        this.viewDebts=new Scene(viewDebts.getValue());
 
         chooseFirstPage();
     }
@@ -159,6 +166,13 @@ public class MainCtrl {
         primaryStage.setTitle("Splitty: Add/Edit Expense");
         addExpenseCtrl.setup(eventOverviewCtrl.getEvent());
         primaryStage.setScene(addExpense);
+    }
+
+    public void showViewDebts(Event event){
+        primaryStage.setTitle("Splitty: view/edit Debts");
+        viewDebtsCtrl.setEvent(event);
+        viewDebtsCtrl.refresh();
+        primaryStage.setScene(viewDebts);
     }
 
     //hardcoded temporary exchange rates

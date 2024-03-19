@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+
+<?import javafx.scene.control.TableColumn?>
+<AnchorPane prefHeight="400.0" prefWidth="400.0" stylesheets="@/client/stylesheets/general.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ViewDebtsCtrl">
+   <children>
+      <Label fx:id="event_name" text="error"/>
+      <TableView>
+         <columns>
+            <TableColumn text="test"/>
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>
