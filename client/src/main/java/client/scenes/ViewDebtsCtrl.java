@@ -17,7 +17,10 @@ public class ViewDebtsCtrl implements Initializable {
     private Event event;
 
     @FXML
-    private Label event_name;
+    private Label eventName;
+
+    @FXML
+    private TableView table;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

@@ -7,8 +7,11 @@
 <?import javafx.scene.control.TableColumn?>
 <AnchorPane prefHeight="400.0" prefWidth="400.0" stylesheets="@/client/stylesheets/general.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ViewDebtsCtrl">
    <children>
-      <Label fx:id="event_name" text="error"/>
-      <TableView>
+      <Label fx:id="eventName" text="error"/>
+      <TableView fx:id="table" layoutX="100" layoutY="100" >
+         <font>
+            <Font/>
+         </font>
          <columns>
             <TableColumn text="test"/>
          </columns>
