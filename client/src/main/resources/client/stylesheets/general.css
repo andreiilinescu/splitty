@@ -14,3 +14,8 @@
     -fx-background-color: #161616;
     -fx-text-fill: #eaeaea;
 }
+
+.table-view, .column-header {
+    -fx-background-color: #161616;
+    -fx-border-color: #404040;
+}
