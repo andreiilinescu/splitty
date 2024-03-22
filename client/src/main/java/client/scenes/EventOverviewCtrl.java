@@ -66,7 +66,6 @@ public class EventOverviewCtrl implements Initializable {
         this.event=newEvent;
         eventTitle.setText(this.event.getTitle());
         reassignParticipants(this.event.getParticipants());
-        System.out.println("Event " + newEvent.getTitle() + " with " + newEvent.getTags().size() + " tags loaded");
     }
 
     public void reassignParticipants(List<Participant> participantList){

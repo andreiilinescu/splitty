@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.UUID;
@@ -69,8 +70,11 @@ public class StartCtrl implements Initializable {
 
         Participant creator=new Participant(this.mainCtrl.getUser().getName());
         Event newEvent= new Event(title, creator);
-        newEvent.setTags(List.of(new Tag("food"), new Tag("entrance fees"), new Tag("travel")));
-        System.out.println("Event with " + newEvent.getTags().size() + " tags");
+        List<Tag> tags = new ArrayList<>();
+        tags.add(new Tag("food", new double[]{0, 1.0, 0, 1}));
+        tags.add(new Tag("entrance fees", new double[]{0, 0, 1.0, 1}));
+        tags.add(new Tag("travel", new double[]{1.0, 0, 0, 1.0}));
+        newEvent.setTags(tags);
         try {
             newEvent=server.addEvent(newEvent);
         } catch (WebApplicationException e) {

@@ -36,6 +36,9 @@ public class AddExpenseCtrl implements Initializable {
     @FXML
     private VBox tagSelector, createTagBox, partialPaidSelector;
 
+    @FXML
+    ColorPicker colorPicker;
+
     @Inject
     public AddExpenseCtrl(ServerUtils server, MainCtrl mainCtrl, Event event) {
         this.server = server;
@@ -79,7 +82,6 @@ public class AddExpenseCtrl implements Initializable {
         currencySelector.setVisible(true);
 
         tagSelector.getChildren().clear();
-        System.out.println("This event has " + event.getTags().size() + " tags");
         for (int i = 0; i<event.getTags().size(); i++){
             renderTag(event.getTags().get(i));
         }
@@ -214,7 +216,8 @@ public class AddExpenseCtrl implements Initializable {
             notificationHelper.showError("Warning", warningMessage);
         }
         else {
-            Tag tag = new Tag(tagName);
+            Color color = colorPicker.getValue();
+            Tag tag = new Tag(tagName, new double[]{color.getRed(), color.getGreen(), color.getBlue(), color.getOpacity()});
             event.addTag(tag);
             renderTag(tag);
             closeCreateTag();
@@ -251,10 +254,10 @@ public class AddExpenseCtrl implements Initializable {
     private void renderTag(Tag tag){
         CheckBox checkbox = new CheckBox(tag.getTag());
         Rectangle rectangle = new Rectangle(-5, 0, 100, 20);
-        rectangle.setFill(Color.BLUE);
         Group g = new Group();
         g.getChildren().add(checkbox);
         g.getChildren().add(rectangle);
+        rectangle.setFill(new Color(tag.getColorValues()[0], tag.getColorValues()[1], tag.getColorValues()[2], tag.getColorValues()[3]));
         rectangle.toBack();
         rectangle.setOpacity(0.5);
         rectangle.setArcWidth(15);

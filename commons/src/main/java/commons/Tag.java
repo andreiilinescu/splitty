@@ -1,7 +1,6 @@
 package commons;
 
 import jakarta.persistence.*;
-
 import java.util.Objects;
 
 @Entity
@@ -12,19 +11,23 @@ public class Tag {
     private long id;
     private String tag;
 
+    private double[] colorValues = new double[4];
+
     @ManyToOne
     private Event event;
 
-    public Tag(String tag, Event event) {
+    public Tag(String tag, Event event, double[] colorValues) {
         this.tag = tag;
         this.event = event;
+        this.colorValues = colorValues;
     }
 
     public Tag() {
     }
 
-    public Tag(String tagName) {
+    public Tag(String tagName, double[] colorValues) {
         this.tag = tagName;
+        this.colorValues = colorValues;
     }
 
     public String getTag() {
@@ -58,5 +61,13 @@ public class Tag {
     @Override
     public int hashCode() {
         return Objects.hash(tag, event);
+    }
+
+    public double[] getColorValues() {
+        return colorValues;
+    }
+
+    public void setColorValues(double[] colorValues) {
+        this.colorValues = colorValues;
     }
 }
