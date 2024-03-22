@@ -80,15 +80,8 @@ public class AddExpenseCtrl implements Initializable {
 
         tagSelector.getChildren().clear();
         System.out.println("This event has " + event.getTags().size() + " tags");
-        for (int i = 1; i<event.getTags().size() + 1; i++){
-            CheckBox checkbox = new CheckBox(event.getTags().get(i-1).getTag());
-            Rectangle rectangle = new Rectangle(0, 0, 100, 20);
-            rectangle.setFill(Color.BLUE);
-            Group g = new Group();
-            g.getChildren().add(checkbox);
-            g.getChildren().add(rectangle);
-            rectangle.toBack();
-            tagSelector.getChildren().add(g);
+        for (int i = 0; i<event.getTags().size(); i++){
+            renderTag(event.getTags().get(i));
         }
 
         partialPaidSelector.setVisible(false);
@@ -223,7 +216,7 @@ public class AddExpenseCtrl implements Initializable {
         else {
             Tag tag = new Tag(tagName);
             event.addTag(tag);
-            tagSelector.getChildren().add(new CheckBox(tag.getTag()));
+            renderTag(tag);
             closeCreateTag();
         }
     }
@@ -253,5 +246,19 @@ public class AddExpenseCtrl implements Initializable {
             }
         }
         return t;
+    }
+
+    private void renderTag(Tag tag){
+        CheckBox checkbox = new CheckBox(tag.getTag());
+        Rectangle rectangle = new Rectangle(-5, 0, 100, 20);
+        rectangle.setFill(Color.BLUE);
+        Group g = new Group();
+        g.getChildren().add(checkbox);
+        g.getChildren().add(rectangle);
+        rectangle.toBack();
+        rectangle.setOpacity(0.5);
+        rectangle.setArcWidth(15);
+        rectangle.setArcHeight(15);
+        tagSelector.getChildren().add(g);
     }
 }
