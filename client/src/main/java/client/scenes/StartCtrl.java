@@ -3,13 +3,14 @@ package client.scenes;
 import client.services.NotificationService;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Event;
 import commons.Participant;
+import commons.Tag;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
-import commons.Event;
 import javafx.scene.layout.GridPane;
 
 import java.net.URL;
@@ -68,6 +69,8 @@ public class StartCtrl implements Initializable {
 
         Participant creator=new Participant(this.mainCtrl.getUser().getName());
         Event newEvent= new Event(title, creator);
+        newEvent.setTags(List.of(new Tag("food"), new Tag("entrance fees"), new Tag("travel")));
+        System.out.println("Event with " + newEvent.getTags().size() + " tags");
         try {
             newEvent=server.addEvent(newEvent);
         } catch (WebApplicationException e) {

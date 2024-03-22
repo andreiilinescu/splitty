@@ -7,9 +7,12 @@ import commons.*;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -32,8 +35,6 @@ public class AddExpenseCtrl implements Initializable {
     private DatePicker whenField;
     @FXML
     private VBox tagSelector, createTagBox, partialPaidSelector;
-    @FXML
-    private Label tagErrorLabel, errorLabel;
 
     @Inject
     public AddExpenseCtrl(ServerUtils server, MainCtrl mainCtrl, Event event) {
@@ -68,7 +69,6 @@ public class AddExpenseCtrl implements Initializable {
         createTagBox.setVisible(false);
         paidBySelector.setItems(FXCollections.observableList(event.getParticipants().stream().map(Participant::getName).toList()));
         paidBySelector.setValue(event.getParticipants().get(0).getName());
-        errorLabel.setVisible(false);
 
         howMuchField.setText("");
         someBox.setSelected(false);
@@ -79,9 +79,16 @@ public class AddExpenseCtrl implements Initializable {
         currencySelector.setVisible(true);
 
         tagSelector.getChildren().clear();
+        System.out.println("This event has " + event.getTags().size() + " tags");
         for (int i = 1; i<event.getTags().size() + 1; i++){
             CheckBox checkbox = new CheckBox(event.getTags().get(i-1).getTag());
-            tagSelector.getChildren().add(checkbox);
+            Rectangle rectangle = new Rectangle(0, 0, 100, 20);
+            rectangle.setFill(Color.BLUE);
+            Group g = new Group();
+            g.getChildren().add(checkbox);
+            g.getChildren().add(rectangle);
+            rectangle.toBack();
+            tagSelector.getChildren().add(g);
         }
 
         partialPaidSelector.setVisible(false);
@@ -206,7 +213,12 @@ public class AddExpenseCtrl implements Initializable {
     public void createTag(){
         String tagName = tagField.getText();
         if (tagName == null || tagName.isEmpty() || event.getTags().stream().map(Tag::getTag).toList().contains(tagName)){
-            tagErrorLabel.setVisible(true);
+            NotificationHelper notificationHelper = new NotificationHelper();
+            String warningMessage = """
+                    Invalid or already existent tag.
+                    Please choose another name for your tag.
+                    """;
+            notificationHelper.showError("Warning", warningMessage);
         }
         else {
             Tag tag = new Tag(tagName);
@@ -218,7 +230,6 @@ public class AddExpenseCtrl implements Initializable {
 
     public void openTagScene(){
         createTagBox.setVisible(true);
-        tagErrorLabel.setVisible(false);
     }
 
     public void closeCreateTag(){

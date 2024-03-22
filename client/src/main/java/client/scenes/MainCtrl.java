@@ -163,9 +163,11 @@ public class MainCtrl {
 
     // TODO Both setEvent and refresh call the setEvent function
     public void showEventOverviewScene(Event newEvent) {
+        System.out.println("Event with " + newEvent.getTags().size() + " tags loading");
         primaryStage.setTitle("Splitty: Event Overview");
         eventOverviewCtrl.setEvent(newEvent);
-        eventOverviewCtrl.refresh();
+        //eventOverviewCtrl.refresh(); since not all data is stored in db, refreshing loses event data such as tags, so until tags are not lost this should remain commented
+        //also the way setEvent and refresh work is very sloppy, they must be revised
         primaryStage.setScene(eventOverview);
     }
 
