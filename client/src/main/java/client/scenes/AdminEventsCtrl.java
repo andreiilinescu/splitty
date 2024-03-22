@@ -8,6 +8,7 @@ import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import commons.Event;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -140,9 +141,15 @@ public class AdminEventsCtrl implements Initializable {
      * Uses the locally stored list of events to render the table.
      */
     public void populateList() {
-        myListView.getItems().clear();
-        List<BorderPane> contents = events.stream().map(e -> createRow(e)).toList();
-        myListView.getItems().addAll(contents);
+        /*
+         * To be able to run on the same thread as JavaFx.
+         * You cant update java fx from the listener thread.
+         */
+        Platform.runLater(() -> {
+            myListView.getItems().clear();
+            List<BorderPane> contents = events.stream().map(e -> createRow(e)).toList();
+            myListView.getItems().addAll(contents);
+        });
     }
 
     /**

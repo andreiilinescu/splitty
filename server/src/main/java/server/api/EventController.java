@@ -103,6 +103,8 @@ public class EventController {
             return ResponseEntity.badRequest().build();
         }
         Event saved = repo.save(event);
+        // WHEN ADDING THIS, UPDATING ALWAYS FAILS. TODO
+        //listeners.values().forEach(listener -> listener.accept(saved)); // notify all listeners of an update
         return ResponseEntity.ok(saved);
     }
 
