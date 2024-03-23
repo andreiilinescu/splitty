@@ -17,9 +17,9 @@ public class ExpenseController {
     }
 
     @GetMapping(path = {"", "/"})
-    public  ResponseEntity<List<Expense>> getAll() {
+    public  ResponseEntity<List<Expense>> getAll(@PathVariable("event_id") UUID eventId) {
         try {
-            return ResponseEntity.ok(repo.findAll());
+            return ResponseEntity.ok(repo.getExpensesFromEvent(eventId));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
@@ -35,20 +35,18 @@ public class ExpenseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Expense> getById(@PathVariable("id") UUID id) {
+    public ResponseEntity<Expense> getById(@PathVariable("id") UUID id, @PathVariable("event_id") UUID eventId) {
         if (repo.findById(id).isPresent()) {
-            return ResponseEntity.ok(repo.findById(id).get());
+            return ResponseEntity.ok(repo.getExpenseByIdInEvent(eventId, id));
         }
         return ResponseEntity.badRequest().build();
     }
 
     // TODO Handle who can delete an expense and who can't
     @DeleteMapping("/{id}")
-    public ResponseEntity<Expense> remove(@PathVariable("id") UUID id) {
+    public ResponseEntity<Void> remove(@PathVariable("id") UUID id, @PathVariable("event_id") UUID eventId) {
         if (repo.findById(id).isPresent()) {
-            ResponseEntity<Expense> ret = ResponseEntity.ok(repo.findById(id).get());
-            repo.deleteById(id);
-            return ret;
+            repo.deleteExpenseFromEvent(id, eventId);
         }
         return ResponseEntity.badRequest().build();
     }

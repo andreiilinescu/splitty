@@ -46,6 +46,7 @@ public class Event {
     private List<Tag> tags;
 
     public Event(UUID id) {
+        this();
         this.id = id;
     }
 
