@@ -80,8 +80,8 @@ public class AddExpenseCtrl implements Initializable {
         currencySelector.setVisible(true);
 
         tagSelector.getChildren().clear();
-        for (int i = 1; i<event.getTags().size() + 1; i++){
-            CheckBox checkbox = new CheckBox(event.getTags().get(i-1).getTag());
+        for (int i = 0; i<event.getTags().size(); i++){
+            CheckBox checkbox = new CheckBox(event.getTags().get(i).getTag());
             tagSelector.getChildren().add(checkbox);
         }
 
