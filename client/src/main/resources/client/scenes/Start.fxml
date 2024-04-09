@@ -21,7 +21,7 @@
          <font>
             <Font size="14.0" />
          </font></TextField>
-      <Button fx:id="buttonCreate" layoutX="231.0" layoutY="84.0" mnemonicParsing="false" onAction="#createEvent" prefHeight="29.0" prefWidth="80.0" style="-fx-border-style: hidden hidden hidden solid;" styleClass="start-form" text="start.button_new">
+      <Button fx:id="buttonCreate" layoutX="231.0" layoutY="84.0" mnemonicParsing="false" onAction="#createEvent" prefHeight="27.0" prefWidth="66.0" style="-fx-border-style: hidden hidden hidden solid;" styleClass="start-form" text="start.button_new">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
@@ -34,7 +34,7 @@
          <padding>
             <Insets right="10.0" />
          </padding></TextField>
-      <Button fx:id="joinButton" layoutX="231.0" layoutY="160.0" mnemonicParsing="false" onAction="#joinEventAction" prefHeight="29.0" prefWidth="80.0" style="-fx-border-style: hidden hidden hidden solid;" styleClass="start-form" text="start.button_join">
+      <Button fx:id="joinButton" layoutX="231.0" layoutY="160.0" mnemonicParsing="false" onAction="#joinEventAction" prefHeight="27.0" prefWidth="66.0" style="-fx-border-style: hidden hidden hidden solid;" styleClass="start-form" text="start.button_join">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
