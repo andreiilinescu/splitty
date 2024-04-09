@@ -36,7 +36,7 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="settleDebt" layoutX="334.0" layoutY="489.0" mnemonicParsing="false" text="event.overview.settleDebt">
+      <Button fx:id="settleDebt" onAction="#settleDebt" layoutX="334.0" layoutY="489.0" mnemonicParsing="false" text="event.overview.settleDebt">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>

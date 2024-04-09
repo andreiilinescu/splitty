@@ -28,7 +28,10 @@ public class DebtResolveCtrl implements Initializable {
     private TableView<DebtResolveTableEntry> debtTable;
 
     @FXML
-    private TableColumn<DebtResolveTableEntry, String> personColumn;
+    private TableColumn<DebtResolveTableEntry, String> fromColumn;
+
+    @FXML
+    private TableColumn<DebtResolveTableEntry, String> toColumn;
 
     @FXML
     private TableColumn<DebtResolveTableEntry, Double> amountColumn;
@@ -43,7 +46,7 @@ public class DebtResolveCtrl implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        personColumn.setCellValueFactory(new PropertyValueFactory<>("from"));
+        fromColumn.setCellValueFactory(new PropertyValueFactory<>("from"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
         debtTable.setItems(tableEntries);
     }

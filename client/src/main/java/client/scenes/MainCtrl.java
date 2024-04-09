@@ -102,7 +102,8 @@ public class MainCtrl {
                            Pair<EditTagCtrl, Parent> editTag,
                            Pair<LanguageCtrl, Parent> languages,
                            boolean adminMode,
-                            Pair<StatisticsCtrl, Parent> statistics
+                           Pair<StatisticsCtrl, Parent> statistics,
+                           Pair<DebtResolveCtrl, Parent> debtResolve
     ) {
         this.admin=false;
         this.user = new User();
@@ -154,11 +155,14 @@ public class MainCtrl {
         this.statisticsCtrl = statistics.getKey();
         this.statistics = new Scene(statistics.getValue());
 
+        this.debtResolveCtrl = debtResolve.getKey();
+        this.debtResolve = new Scene(debtResolve.getValue());
+
         primaryStage.getIcons().add(new Image("client/icons/app-icon.png"));
 
         chooseFirstPage(adminMode);
 
-        // in eventoverview, press alt+1 to go back to start
+        // in event overview, press alt+1 to go back to start
         eventOverview.getValue().addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
