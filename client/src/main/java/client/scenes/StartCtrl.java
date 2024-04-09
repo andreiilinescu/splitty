@@ -197,6 +197,7 @@ public class StartCtrl implements Initializable {
                         """,
                 "Shortcuts");
     }
+
     public void setFlag(String language){
         this.flagView.setImage(new Image("client/icons/flag-"+language+".png"));
     }
