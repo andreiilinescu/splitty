@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class DebtResolve {
     public static List<DebtResolveResult> resolve(Event event) {
-        HashMap<Participant, Amounts> amounts = new HashMap<>();
+        Map<Participant, Amounts> amounts = new HashMap<>();
         List<Expense> expenses = event.getExpenses();
 
         System.out.println(expenses);
@@ -37,7 +37,9 @@ public class DebtResolve {
             }
         }
 
-        HashMap<Participant, Double> netAmounts = new HashMap<>();
+        System.out.println(amounts);
+
+        Map<Participant, Double> netAmounts = new HashMap<>();
 
         for (Map.Entry<Participant, Amounts> a : amounts.entrySet()) {
             // calculate net spent
@@ -45,14 +47,12 @@ public class DebtResolve {
             netAmounts.put(a.getKey(), net);
         }
 
-        Participant max = null;
         // gotta get negative infinity
         Double maxAmount = Double.NEGATIVE_INFINITY;
 
         for (Map.Entry<Participant, Double> a : netAmounts.entrySet()) {
             if (a.getValue() > maxAmount) {
                 maxAmount = a.getValue();
-                max = a.getKey();
             }
         }
 
@@ -76,4 +76,3 @@ record Amounts(Double giving, Double getting) {
         return this.giving - this.getting;
     }
 }
-
