@@ -83,7 +83,7 @@ public class Participant {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, iban, event);
+        return Objects.hash(id, name, iban);
     }
 
     public String getIban() {
@@ -158,4 +158,6 @@ public class Participant {
                 +", email='" + email + '\''
                 +'}';
     }
+
+
 }

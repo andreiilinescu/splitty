@@ -37,8 +37,8 @@ public class DebtResolveTest extends DebtResolve {
                     Instant.EPOCH,
                     this.participants.get(x),
                     this.event,
-                    new ArrayList<Debt>(),
-                    new ArrayList<Tag>()
+                    new ArrayList<>(),
+                    new ArrayList<>()
             );
 
             List<Debt> debts = new ArrayList<>();
