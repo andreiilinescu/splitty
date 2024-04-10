@@ -42,6 +42,6 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="testBtn" layoutX="196.0" layoutY="429.0" mnemonicParsing="false" onAction="#testEmail" text="invite.test" />
+      <Button fx:id="testBtn" layoutX="196.0" layoutY="429.0" mnemonicParsing="false" text="invite.test" />
    </children>
 </AnchorPane>
