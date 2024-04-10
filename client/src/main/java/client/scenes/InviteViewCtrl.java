@@ -76,6 +76,10 @@ public class InviteViewCtrl implements Initializable {
         server.sendEmail(server.getMailConfig().getUsername(), "Test", "This is a test email. If you see it, then everything works fine!");
     }
 
+    private void testEmail() {
+
+    }
+
     private void sendInvite() {
         if (!validEmailConfig) {
             System.out.println("NO CONFIG AVAILABLE");
