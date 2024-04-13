@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.services.I18N;
 import client.services.NotificationService;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
@@ -24,6 +25,8 @@ public class StatisticsCtrl implements Initializable {
     private final NotificationService notificationService;
     @FXML
     public Label expenseLabel;
+    @FXML
+    public Label backButtonLabel;
     @FXML
     public TableColumn<StatsRow, String> tFrom;
     @FXML
@@ -53,6 +56,7 @@ public class StatisticsCtrl implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        I18N.update(backButtonLabel);
         //Debts table
         tFrom.setCellValueFactory(new PropertyValueFactory<>("from"));
         tTo.setCellValueFactory(new PropertyValueFactory<>("to"));
@@ -131,7 +135,7 @@ public class StatisticsCtrl implements Initializable {
                 -fx-text-fill: white;
                 -fx-border-width: 0;
                 -fx-padding: 0;
-                -fx-background-color: #f4f4f4
+                -fx-background-color: #242424
                 """);
         //set colors for the pie chart slices
         pieStats.setCache(false);

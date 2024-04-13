@@ -1,53 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="608.0" prefWidth="1224.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.StatisticsCtrl">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="933.0" stylesheets="@/client/stylesheets/general.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.StatisticsCtrl">
 
-    <Text layoutX="401.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution of tags across expenses" textAlignment="CENTER" wrappingWidth="360.0">
+    <Text fill="WHITE" layoutX="416.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution of tags across expenses" textAlignment="CENTER" wrappingWidth="360.0">
         <font>
             <Font size="16.0" />
         </font>
     </Text>
-    <Label fx:id="expenseLabel" layoutX="304.0" layoutY="537.0" text="Total Event costs: ">
+    <Label fx:id="expenseLabel" layoutX="422.0" layoutY="23.0" text="Total Event costs: ">
         <font>
-            <Font size="35.0" />
+            <Font size="25.0" />
         </font>
     </Label>
-    <TableView fx:id="tableView" layoutX="14.0" layoutY="73.0" prefHeight="402.0" prefWidth="360.0">
+    <TableView fx:id="tableView" layoutX="16.0" layoutY="74.0" prefHeight="196.0" prefWidth="345.0">
         <columns>
             <TableColumn fx:id="tFrom" prefWidth="82.0" text="From" />
             <TableColumn fx:id="tTo" prefWidth="106.0" text="To" />
             <TableColumn fx:id="tAmount" prefWidth="65.0" text="Amount" />
-            <TableColumn fx:id="tExpenseName" prefWidth="103.0" text="Expense" />
+            <TableColumn fx:id="tExpenseName" prefWidth="91.0" text="Expense" />
 
         </columns>
     </TableView>
-    <Button layoutX="22.0" layoutY="12.0" mnemonicParsing="false" onAction="#back" text="Back" />
-    <Label alignment="CENTER" layoutX="206.0" layoutY="37.0" prefHeight="21.0" prefWidth="104.0" text="Debts">
+    <Label alignment="CENTER" layoutX="125.0" layoutY="41.0" prefHeight="27.0" prefWidth="126.0" text="Debts">
         <font>
-            <Font size="21.0" />
+            <Font size="18.0" />
         </font>
     </Label>
-    <Pane fx:id="piechartPane" layoutX="374.0" layoutY="100.0" prefHeight="367.0" prefWidth="368.0" />
-    <TableView fx:id="sharesTable" layoutX="822.0" layoutY="91.0" prefHeight="385.0" prefWidth="388.0">
+    <Pane fx:id="piechartPane" layoutX="399.0" layoutY="107.0" prefHeight="326.0" prefWidth="360.0" />
+    <TableView fx:id="sharesTable" layoutX="16.0" layoutY="336.0" prefHeight="211.0" prefWidth="345.0">
         <columns>
             <TableColumn fx:id="tParticipantShare" prefWidth="118.0" text="Participant" />
             <TableColumn fx:id="tShare" prefWidth="71.0" text="Share" />
-            <TableColumn fx:id="tOwes" prefWidth="92.0" text="Owes" />
-            <TableColumn fx:id="tOwed" prefWidth="130.0" text="Owed" />
+            <TableColumn fx:id="tOwes" prefWidth="71.0" text="Owes" />
+            <TableColumn fx:id="tOwed" prefWidth="84.0" text="Owed" />
         </columns>
     </TableView>
-    <Text layoutX="935.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Share per participant" wrappingWidth="196.3359375">
+    <Text fill="WHITE" layoutX="90.0" layoutY="319.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Share per participant" textAlignment="CENTER" wrappingWidth="196.3359375">
         <font>
-            <Font size="15.0" />
+            <Font size="17.0" />
         </font>
     </Text>
+    <Pane fx:id="backButton" layoutX="14.0" layoutY="14.0" onMouseClicked="#back" prefHeight="27.0" prefWidth="84.0" styleClass="back-pane">
+        <children>
+            <ImageView fitHeight="21.0" fitWidth="17.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@/client/icons/back.png" />
+                </image>
+            </ImageView>
+            <Label fx:id="backButtonLabel" layoutX="17.0" layoutY="3.0" prefHeight="22.0" prefWidth="62.0" text="settings.back">
+                <font>
+                    <Font size="16.0" />
+                </font>
+                <cursor>
+                    <Cursor fx:constant="CLOSED_HAND" />
+                </cursor>
+            </Label>
+        </children>
+        <cursor>
+            <Cursor fx:constant="HAND" />
+        </cursor>
+    </Pane>
 </AnchorPane>
