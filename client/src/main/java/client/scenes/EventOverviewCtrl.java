@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.services.I18N;
+import client.services.I18NService;
 import client.services.NotificationService;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
@@ -92,13 +92,16 @@ public class EventOverviewCtrl implements Initializable {
 
     private int filter;
 
+    private final I18NService i18n;
+
     @Inject
-    public EventOverviewCtrl(ServerUtils server, MainCtrl mainCtrl, NotificationService notificationService) {
+    public EventOverviewCtrl(ServerUtils server, MainCtrl mainCtrl, NotificationService notificationService, I18NService i18n) {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.notificationService = notificationService;
         this.event=new Event();
         this.filter=0;
+        this.i18n = i18n;
     }
 
     @Override
@@ -115,14 +118,14 @@ public class EventOverviewCtrl implements Initializable {
         this.sendInvite.setOnAction(event -> sendInvite());
 
         this.statsBtn.setOnAction(e -> mainCtrl.showStatistics(this.event));
-        I18N.update(sendInvite);
-        I18N.update(addExpense);
-        I18N.update(addTag);
-        I18N.update(settleDebt);
-        I18N.update(expenseLabel);
-        I18N.update(participantLabel);
-        I18N.update(eventTitle);
-        I18N.update(backButtonLabel);
+        i18n.update(sendInvite);
+        i18n.update(addExpense);
+        i18n.update(addTag);
+        i18n.update(settleDebt);
+        i18n.update(expenseLabel);
+        i18n.update(participantLabel);
+        i18n.update(eventTitle);
+        i18n.update(backButtonLabel);
         this.sendInvite.setOnAction(event -> sendInvite());
 
         payerSelector.setCellFactory(param -> getPayerListCell());
@@ -261,6 +264,14 @@ public class EventOverviewCtrl implements Initializable {
         mainCtrl.showEditExpense(e);
     }
 
+    public void removeExpenseAction(Expense e){
+        if (!notificationService.showConfirmation(i18n.get("event.overview.delete.event"), i18n.get("event.overview.delete.event.notification"))) {
+            return;
+        }
+        server.removeExpense(event.getId(), e);
+        this.refresh();
+    }
+
 
     @SuppressWarnings("checkstyle:RegexpSingleline")
     public void refresh(){
@@ -285,7 +296,7 @@ public class EventOverviewCtrl implements Initializable {
             * - refresh all data related to the event
             * - add functionality to the expense list and filtering*/
         }catch (WebApplicationException e) {
-            notificationService.showError(I18N.get("event.overview.showRefreshingEvent"), I18N.get("event.overview.showRefreshingEventMessage"));
+            notificationService.showError(i18n.get("event.overview.showRefreshingEvent"), i18n.get("event.overview.showRefreshingEventMessage"));
         }
     }
 
@@ -294,15 +305,11 @@ public class EventOverviewCtrl implements Initializable {
         BorderPane bp = new BorderPane();
         double convertedAmount = server.convert(e.getAmount(), e.getCurrency(), String.valueOf(mainCtrl.getUser().getPrefferedCurrency()), e.getDate());
         DecimalFormat df = new DecimalFormat("#.00");
-        Text text=new Text(
-                (e.getPaidBy() == null ? "NULL" : e.getPaidBy().getName())
-                        + "'s expense - "
-                        + df.format(convertedAmount)
-                        + " "
-                        + mainCtrl.getUser().getPrefferedCurrency());
+        Text text=new Text((e.getTitle() == null ? "NULL" : e.getTitle() +
+                            " - " + df.format(convertedAmount) + " " + mainCtrl.getUser().getPrefferedCurrency()));
         text.setFill(Color.WHITESMOKE);
         bp.setLeft(text);
-
+        BorderPane inner2Bp= new BorderPane();
         BorderPane innerBp = new BorderPane();
 
         Image editImage = new Image("client/icons/pencil.png");
@@ -314,7 +321,18 @@ public class EventOverviewCtrl implements Initializable {
         edit.setPickOnBounds(true);
         edit.setFitWidth(12.0);
         BorderPane.setMargin(edit, insets);
-        innerBp.setRight(edit);
+        inner2Bp.setLeft(edit);
+
+        Image removeImage = new Image("client/icons/bin-red.png");
+        ImageView remove = new ImageView();
+        remove.setImage(removeImage);
+        remove.setOnMouseClicked(x -> removeExpenseAction(e));
+        remove.cursorProperty().set(Cursor.HAND);
+        remove.setFitHeight(12.0);
+        remove.setPickOnBounds(true);
+        remove.setFitWidth(12.0);
+        inner2Bp.setRight(remove);
+        BorderPane.setMargin(remove, insets);
 
         HBox hbox = new HBox();
         List<BorderPane> tags = e.getTags().stream().map(this::pretty).toList();
@@ -322,7 +340,7 @@ public class EventOverviewCtrl implements Initializable {
         hbox.setSpacing(5.0);
         hbox.setPadding(insets);
         innerBp.setLeft(hbox);
-
+        innerBp.setRight(inner2Bp);
         bp.setRight(innerBp);
         return bp;
     }
@@ -340,9 +358,9 @@ public class EventOverviewCtrl implements Initializable {
         }
     }
     public void refreshLanguage(){
-        this.allFilter.setText(I18N.get("general.all"));
-        this.fromFilter.setText(I18N.get("general.from"));
-        this.toFilter.setText(I18N.get("general.to"));
+        this.allFilter.setText(i18n.get("general.all"));
+        this.fromFilter.setText(i18n.get("general.from"));
+        this.toFilter.setText(i18n.get("general.to"));
     }
 
     public void setToFilter(){

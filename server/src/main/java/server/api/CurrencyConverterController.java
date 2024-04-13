@@ -25,7 +25,6 @@ public class CurrencyConverterController {
     @PostMapping(path = {"", "/"})
     public ResponseEntity<Double> convert(@RequestBody String contents) {
         JsonObject body = JsonParser.parseString(contents).getAsJsonObject();
-        System.out.println(body);
         double ret = converter.convert(Double.parseDouble(body.get("amount").toString()),
                 body.get("from").toString().toString().substring(1, body.get("from").toString().length() - 1),
                 body.get("to").toString().toString().substring(1, body.get("to").toString().length() - 1),

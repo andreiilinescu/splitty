@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.services.I18N;
+import client.services.I18NService;
 import client.services.NotificationHelper;
 import client.services.NotificationService;
 import client.utils.ServerUtils;
@@ -34,21 +34,23 @@ public class SettingsCtrl implements Initializable {
     private Labeled nukeEmData;
     @FXML
     private Labeled back;
+    private final I18NService i18n;
 
     @Inject
-    public SettingsCtrl(ServerUtils server, MainCtrl mainCtrl, NotificationService notificationService) {
+    public SettingsCtrl(ServerUtils server, MainCtrl mainCtrl, NotificationService notificationService, I18NService i18n) {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.notificationService = notificationService;
+        this.i18n = i18n;
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        I18N.update(settings);
-        I18N.update(edit);
-        I18N.update(language);
-        I18N.update(adminMode);
-        I18N.update(nukeEmData);
-        I18N.update(back);
+        i18n.update(settings);
+        i18n.update(edit);
+        i18n.update(language);
+        i18n.update(adminMode);
+        i18n.update(nukeEmData);
+        i18n.update(back);
         this.prepareAdminLogin();
     }
 
@@ -67,8 +69,8 @@ public class SettingsCtrl implements Initializable {
 
     private void prepareAdminLogin(){
         passwordPrompt=new TextInputDialog();
-        passwordPrompt.setTitle(I18N.get("window.event.admin.login"));
-        passwordPrompt.setContentText(I18N.get("settings.admin.password"));
+        passwordPrompt.setTitle(i18n.get("window.event.admin.login"));
+        passwordPrompt.setContentText(i18n.get("settings.admin.password"));
         passwordPrompt.setHeaderText("");
         passwordPrompt.setGraphic(null);
     }
@@ -82,7 +84,7 @@ public class SettingsCtrl implements Initializable {
     private void checkPassword(String password){
         if (password.isEmpty()){
             NotificationHelper notificationHelper = new NotificationHelper();
-            notificationHelper.showError(I18N.get("general.warning"), I18N.get("settings.admin.warning"));
+            notificationHelper.showError(i18n.get("general.warning"), i18n.get("settings.admin.warning"));
             return;
         }
         try {
@@ -93,7 +95,7 @@ public class SettingsCtrl implements Initializable {
         }
         catch (Exception E){
             NotificationHelper notificationHelper = new NotificationHelper();
-            notificationHelper.showError(I18N.get("general.error"), I18N.get("settings.admin.wrongPassword"));
+            notificationHelper.showError(i18n.get("general.error"), i18n.get("settings.admin.wrongPassword"));
         }
     }
 }

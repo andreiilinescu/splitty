@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.services.I18N;
+import client.services.I18NService;
 import client.services.NotificationService;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
@@ -42,23 +42,27 @@ public class InviteViewCtrl implements Initializable {
     private Event event;
     private boolean validEmailConfig;
 
+    private final I18NService i18n;
+
 
     @Inject
-    public InviteViewCtrl(ServerUtils server, MainCtrl mainCtrl, NotificationService notificationService) {
+    public InviteViewCtrl(ServerUtils server, MainCtrl mainCtrl, NotificationService notificationService, I18NService i18n) {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.notificationService = notificationService;
         this.event=new Event();
+        this.i18n = i18n;
         validEmailConfig = server.getMailConfig() != null;
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        I18N.update(copyToClipboardBtn);
-        I18N.update(inviteInstr);
-        I18N.update(emailLabel);
-        I18N.update(sendInviteBtn);
-        I18N.update(cancelBtn);
-        I18N.update(testBtn);
+        i18n.update(copyToClipboardBtn);
+        i18n.update(inviteInstr);
+        i18n.update(emailLabel);
+        i18n.update(sendInviteBtn);
+        i18n.update(cancelBtn);
+        i18n.update(cancelBtn);
+        i18n.update(testBtn);
         this.copyToClipboardBtn.setOnAction(event -> copyToClipboard());
         this.sendInviteBtn.setOnAction(event -> sendInvite());
         this.cancelBtn.setOnAction(event -> backToEvent());

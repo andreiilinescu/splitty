@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.services.I18N;
+import client.services.I18NService;
 import client.services.NotificationService;
 import client.utils.ServerUtils;
 import commons.Event;
@@ -42,12 +42,15 @@ public class EditTagCtrl implements Initializable {
 
     private Event event;
 
+    private final I18NService i18n;
+
     @Inject
-    public EditTagCtrl(MainCtrl mainCtrl, ServerUtils server, NotificationService notificationService, Tag tag) {
+    public EditTagCtrl(MainCtrl mainCtrl, ServerUtils server, NotificationService notificationService, Tag tag, I18NService i18n) {
         this.mainCtrl = mainCtrl;
         this.server = server;
         this.notificationService = notificationService;
         this.tag = tag;
+        this.i18n = i18n;
     }
 
     public void setUp(Tag t, Event e) {
@@ -62,14 +65,14 @@ public class EditTagCtrl implements Initializable {
         String name = tagName.getText();
 
         if (name.isEmpty()) {
-            String warningMessage = I18N.get("tag.add.error");
-            notificationService.showError(I18N.get("general.warning"), warningMessage);
+            String warningMessage = i18n.get("tag.add.error");
+            notificationService.showError(i18n.get("general.warning"), warningMessage);
             return;
         }
 
         if (event.getTags().stream().map(t -> t.getTag()).toList().contains(name) && !tag.getTag().equals(name)) {
-            String warningMessage = I18N.get("tag.add.exists");
-            notificationService.showError(I18N.get("general.warning"), warningMessage);
+            String warningMessage = i18n.get("tag.add.exists");
+            notificationService.showError(i18n.get("general.warning"), warningMessage);
             return;
         }
         tag.setColor(AddTagCtrl.toRGBCode(colorPicker.getValue()));
@@ -90,7 +93,7 @@ public class EditTagCtrl implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        I18N.update(backButtonLabel);
-        I18N.update(createTagLabel);
+        i18n.update(backButtonLabel);
+        i18n.update(createTagLabel);
     }
 }

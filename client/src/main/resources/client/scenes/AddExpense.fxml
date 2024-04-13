@@ -50,10 +50,11 @@
          </cursor></Button>
           <GridPane alignment="CENTER" layoutX="4.0" layoutY="20.0" prefHeight="169.0" prefWidth="302.0">
             <columnConstraints>
-              <ColumnConstraints hgrow="SOMETIMES" maxWidth="142.0" minWidth="10.0" prefWidth="80.0" />
+              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="142.0" minWidth="10.0" prefWidth="80.0" />
               <ColumnConstraints hgrow="SOMETIMES" maxWidth="239.0" minWidth="10.0" prefWidth="116.0" />
             </columnConstraints>
             <rowConstraints>
+            <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
               <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
               <RowConstraints maxHeight="106.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
               <RowConstraints maxHeight="138.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
@@ -61,35 +62,37 @@
                 <RowConstraints maxHeight="93.0" minHeight="0.0" prefHeight="29.0" vgrow="SOMETIMES" />
             </rowConstraints>
              <children>
-                <Text fx:id="paid" fill="#eaeaea" strokeType="OUTSIDE" strokeWidth="0.0" text="expense.add.label.paid" GridPane.halignment="CENTER" />
-                <Text fx:id="amount" fill="#eaeaea" strokeType="OUTSIDE" strokeWidth="0.0" text="expense.add.label.amount" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                <Text fx:id="when" fill="#eaeaea" strokeType="OUTSIDE" strokeWidth="0.0" text="expense.add.label.when" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                <DatePicker fx:id="whenField" prefHeight="25.0" prefWidth="184.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <Text fx:id="paid" fill="#eaeaea" strokeType="OUTSIDE" strokeWidth="0.0" text="expense.add.label.paid" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                <Text fx:id="amount" fill="#eaeaea" strokeType="OUTSIDE" strokeWidth="0.0" text="expense.add.label.amount" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                <Text fx:id="when" fill="#eaeaea" strokeType="OUTSIDE" strokeWidth="0.0" text="expense.add.label.when" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                <DatePicker fx:id="whenField" prefHeight="25.0" prefWidth="184.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></DatePicker>
-                <Text fx:id="how" fill="#eaeaea" strokeType="OUTSIDE" strokeWidth="0.0" text="expense.add.label.how" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                <CheckBox fx:id="allBox" mnemonicParsing="false" onAction="#checkAll" text="expense.add.checkbox.equal" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                <Text fx:id="how" fill="#eaeaea" strokeType="OUTSIDE" strokeWidth="0.0" text="expense.add.label.how" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                <CheckBox fx:id="allBox" mnemonicParsing="false" onAction="#checkAll" text="expense.add.checkbox.equal" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></CheckBox>
-                <CheckBox fx:id="someBox" mnemonicParsing="false" onAction="#checkSome" text="expense.add.checkbox.select" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                <CheckBox fx:id="someBox" mnemonicParsing="false" onAction="#checkSome" text="expense.add.checkbox.select" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></CheckBox>
-                <ComboBox fx:id="paidBySelector" prefWidth="300.0" promptText="select" GridPane.columnIndex="1">
+                <ComboBox fx:id="paidBySelector" prefWidth="300.0" promptText="select" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></ComboBox>
-                <ComboBox fx:id="currencySelector" prefHeight="25.0" prefWidth="77.0" visibleRowCount="3" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                <ComboBox fx:id="currencySelector" prefHeight="25.0" prefWidth="77.0" visibleRowCount="3" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="2.0" />
                </GridPane.margin></ComboBox>
-                <TextField fx:id="howMuchField" maxWidth="85.0" prefHeight="25.0" prefWidth="65.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <TextField fx:id="howMuchField" maxWidth="85.0" prefHeight="25.0" prefWidth="65.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Text fx:id="title" fill="#eaeaea" layoutX="5.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="expense.add.label.title" GridPane.halignment="CENTER" />
+            <TextField fx:id="titleField" maxWidth="165.0" prefHeight="25.0" prefWidth="165.0" GridPane.columnIndex="1" />
              </children>
           </GridPane>
           <VBox fx:id="tagSelector" layoutX="356.0" layoutY="20.0" prefHeight="200.0" prefWidth="153.0" spacing="3.0" />
-          <VBox fx:id="partialPaidSelector" layoutX="155.0" layoutY="189.0" prefHeight="200.0" prefWidth="153.0" spacing="3.0" />
+          <VBox fx:id="partialPaidSelector" layoutX="153.0" layoutY="189.0" prefHeight="172.0" prefWidth="153.0" spacing="3.0" />
     </children>
    <padding>
       <Insets left="20.0" />

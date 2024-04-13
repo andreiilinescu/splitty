@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.services.I18N;
+import client.services.I18NService;
 import client.services.NotificationHelper;
 import client.services.NotificationService;
 import client.utils.ServerUtils;
@@ -48,11 +48,14 @@ public class UserSettingsCtrl implements Initializable {
     private Labeled cancelButton;
     @FXML
     private Labeled currencyOption;
+
+    private final I18NService i18n;
     @Inject
-    public UserSettingsCtrl(ServerUtils server, MainCtrl mainCtrl, NotificationService notificationService) {
+    public UserSettingsCtrl(ServerUtils server, MainCtrl mainCtrl, NotificationService notificationService, I18NService i18n) {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.notificationService = notificationService;
+        this.i18n = i18n;
     }
 
     public void refreshFields(){
@@ -68,14 +71,14 @@ public class UserSettingsCtrl implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         List<String> currencies = Arrays.stream(User.Currency.values()).map(Enum::toString).toList();
         currencyComboBox.getItems().addAll(currencies);
-        I18N.update(profileSettings);
-        I18N.update(nameLabel);
-        I18N.update(emailLabel);
-        I18N.update(ibanLabel);
-        I18N.update(bicLabel);
-        I18N.update(sneButton);
-        I18N.update(cancelButton);
-        I18N.update(currencyOption);
+        i18n.update(profileSettings);
+        i18n.update(nameLabel);
+        i18n.update(emailLabel);
+        i18n.update(ibanLabel);
+        i18n.update(bicLabel);
+        i18n.update(sneButton);
+        i18n.update(cancelButton);
+        i18n.update(currencyOption);
     }
 
     public void back(){

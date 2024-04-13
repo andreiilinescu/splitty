@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.services.I18N;
+import client.services.I18NService;
 import client.services.NotificationService;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
@@ -40,23 +40,26 @@ public class LanguageCtrl implements Initializable {
     @FXML
     private Label backButtonLabel;
 
+    private final I18NService i18n;
+
     @Inject
-    public LanguageCtrl(ServerUtils server, MainCtrl mainCtrl, NotificationService notificationService) {
+    public LanguageCtrl(ServerUtils server, MainCtrl mainCtrl, NotificationService notificationService, I18NService i18n) {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.notificationService = notificationService;
+        this.i18n = i18n;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        I18N.update(englishButton);
-        I18N.update(dutchButton);
-        I18N.update(romanianButton);
-        I18N.update(userLanguageButton);
-        I18N.update(customLanguageButton);
-        I18N.update(languageLabel);
-        I18N.update(backButtonLabel);
-        I18N.update(downloadTemplateButton);
+        i18n.update(englishButton);
+        i18n.update(dutchButton);
+        i18n.update(romanianButton);
+        i18n.update(userLanguageButton);
+        i18n.update(customLanguageButton);
+        i18n.update(languageLabel);
+        i18n.update(backButtonLabel);
+        i18n.update(downloadTemplateButton);
     }
 
     public void backAction(){
@@ -85,12 +88,12 @@ public class LanguageCtrl implements Initializable {
 
     public void addLanguage(){
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle(I18N.get("language.addLanguagePrompt"));
+        fileChooser.setTitle(i18n.get("language.addLanguagePrompt"));
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Properties", "*.properties"));
         File selectedFile = fileChooser.showOpenDialog(mainCtrl.getPrimaryStage());
         if (selectedFile == null) {
-            notificationService.showError(I18N.get("admin.event.import.error"), I18N.get("language.addLanguage.error"));
+            notificationService.showError(i18n.get("admin.event.import.error"), i18n.get("language.addLanguage.error"));
             return;
         }
         String languageResourceBundle = "client/src/main/resources/languages_user.properties";
@@ -100,7 +103,7 @@ public class LanguageCtrl implements Initializable {
             Files.copy(selectedFile.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING);
 
         } catch (IOException e) {
-            notificationService.showError(I18N.get("admin.event.import.error.readFile"), I18N.get("language.addLanguage.errorMessage"));
+            notificationService.showError(i18n.get("admin.event.import.error.readFile"), i18n.get("language.addLanguage.errorMessage"));
         }
     }
 
@@ -114,13 +117,13 @@ public class LanguageCtrl implements Initializable {
         try {
             Files.copy(templatePath, newFile, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException exception) {
-            notificationService.showError(I18N.get("admin.event.import.error.writeFile"), I18N.get("admin.event.import.errorMessage.writeFile") + exception);
+            notificationService.showError(i18n.get("admin.event.import.error.writeFile"), i18n.get("admin.event.import.errorMessage.writeFile") + exception);
         }
     }
 
     private File getDirectory() {
         DirectoryChooser chooser = new DirectoryChooser();
-        chooser.setTitle(I18N.get("admin.chooser.title"));
+        chooser.setTitle(i18n.get("admin.chooser.title"));
         File dir = chooser.showDialog(mainCtrl.getPrimaryStage());
         return dir;
     }

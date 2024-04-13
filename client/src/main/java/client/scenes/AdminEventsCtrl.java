@@ -1,7 +1,7 @@
 package client.scenes;
 
 import client.services.GsonInstantTypeAdapter;
-import client.services.I18N;
+import client.services.I18NService;
 import client.services.NotificationService;
 import client.utils.ServerUtils;
 import com.google.common.base.Charsets;
@@ -59,18 +59,21 @@ public class AdminEventsCtrl implements Initializable {
     private String sortCol;
     private int sortType;
 
+    private final I18NService i18n;
+
     @Inject
-    public AdminEventsCtrl(MainCtrl mainCtrl, ServerUtils server, NotificationService notificationService) {
+    public AdminEventsCtrl(MainCtrl mainCtrl, ServerUtils server, NotificationService notificationService, I18NService i18n) {
         this.mainCtrl = mainCtrl;
         this.server = server;
         this.notificationService = notificationService;
+        this.i18n = i18n;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        I18N.update(eventDashboard);
-        I18N.update(sortButton);
-        I18N.update(backButton);
+        i18n.update(eventDashboard);
+        i18n.update(sortButton);
+        i18n.update(backButton);
         sortCol=null;
         sortType=-1;
         myListView.getItems().clear();
@@ -109,7 +112,7 @@ public class AdminEventsCtrl implements Initializable {
      * @param e Event to be removed
      */
     private void removeEventAction(Event e) {
-        if (!notificationService.showConfirmation(I18N.get("admin.delete.event"), I18N.get("admin.delete.event.notification"))) {
+        if (!notificationService.showConfirmation(i18n.get("admin.delete.event"), i18n.get("admin.delete.event.notification"))) {
             return;
         }
         server.removeEvent(e.getId());
@@ -126,7 +129,7 @@ public class AdminEventsCtrl implements Initializable {
 
     private File getDirectory() {
         DirectoryChooser chooser = new DirectoryChooser();
-        chooser.setTitle(I18N.get("admin.chooser.title"));
+        chooser.setTitle(i18n.get("admin.chooser.title"));
         File dir = chooser.showDialog(mainCtrl.getPrimaryStage());
         return dir;
     }
@@ -149,7 +152,7 @@ public class AdminEventsCtrl implements Initializable {
             writer.flush();
             writer.close();
         } catch (IOException exception) {
-            notificationService.showError(I18N.get("admin.event.import.error.writeFile"), I18N.get("admin.event.import.errorMessage.writeFile") + exception);
+            notificationService.showError(i18n.get("admin.event.import.error.writeFile"), i18n.get("admin.event.import.errorMessage.writeFile") + exception);
         }
     }
 
@@ -219,12 +222,12 @@ public class AdminEventsCtrl implements Initializable {
                 .create();
 
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle(I18N.get("admin.event.import.title"));
+        fileChooser.setTitle(i18n.get("admin.event.import.title"));
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("JSON Files", "*.json"));
         File selectedFile = fileChooser.showOpenDialog(mainCtrl.getPrimaryStage());
         if (selectedFile == null) {
-            notificationService.showError(I18N.get("admin.event.import.error"), I18N.get("admin.event.import.errorMessage"));
+            notificationService.showError(i18n.get("admin.event.import.error"), i18n.get("admin.event.import.errorMessage"));
             return;
         }
         Event e = null;
@@ -282,7 +285,7 @@ public class AdminEventsCtrl implements Initializable {
 
 
         } catch (IOException x) {
-            notificationService.showError(I18N.get("admin.event.import.error.readFile"), x.toString());
+            notificationService.showError(i18n.get("admin.event.import.error.readFile"), x.toString());
             return;
         }
     }
@@ -332,16 +335,16 @@ public class AdminEventsCtrl implements Initializable {
 
     public Dialog<String> setupSortDialog(){
         Dialog<String> dlg=new Dialog<>();
-        dlg.setTitle(I18N.get("admin.sorting"));
+        dlg.setTitle(i18n.get("admin.sorting"));
         dlg.setHeaderText("");
         dlg.setGraphic(null);
 
-        ButtonType sortButtonType = new ButtonType(I18N.get("admin.sort"), ButtonData.OK_DONE);
-        ButtonType cancelButtonType = new ButtonType(I18N.get("admin.cancel"), ButtonData.CANCEL_CLOSE);
+        ButtonType sortButtonType = new ButtonType(i18n.get("admin.sort"), ButtonData.OK_DONE);
+        ButtonType cancelButtonType = new ButtonType(i18n.get("admin.cancel"), ButtonData.CANCEL_CLOSE);
         dlg.getDialogPane().getButtonTypes().addAll(sortButtonType, cancelButtonType);
 
         ChoiceBox<String> columnChoiceBox = new ChoiceBox<>();
-        columnChoiceBox.setItems(FXCollections.observableArrayList(I18N.get("admin.title"), I18N.get("admin.creationTime"), I18N.get("admin.lastActivity")));
+        columnChoiceBox.setItems(FXCollections.observableArrayList(i18n.get("admin.title"), i18n.get("admin.creationTime"), i18n.get("admin.lastActivity")));
         columnChoiceBox.getSelectionModel().selectFirst();
 
         ChoiceBox<String> typeChoiceBox = new ChoiceBox<>();
@@ -353,9 +356,9 @@ public class AdminEventsCtrl implements Initializable {
         grid.setVgap(10);
         grid.setPadding(new Insets(20, 150, 10, 10));
 
-        grid.add(new Label(I18N.get("admin.sortBy")), 0, 0);
+        grid.add(new Label(i18n.get("admin.sortBy")), 0, 0);
         grid.add(columnChoiceBox, 1, 0);
-        grid.add(new Label(I18N.get("admin.type")), 0, 1);
+        grid.add(new Label(i18n.get("admin.type")), 0, 1);
         grid.add(typeChoiceBox, 1, 1);
 
         dlg.getDialogPane().setContent(grid);
