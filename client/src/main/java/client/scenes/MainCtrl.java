@@ -76,6 +76,7 @@ public class MainCtrl {
 
     private DebtResolveCtrl debtResolveCtrl;
     private Scene debtResolve;
+
     private AdminEventsCtrl adminEventsCtrl;
     private Scene adminEvents;
 
@@ -100,9 +101,8 @@ public class MainCtrl {
                            Pair<AddTagCtrl, Parent> addTag,
                            Pair<EditTagCtrl, Parent> editTag,
                            Pair<LanguageCtrl, Parent> languages,
-                           Pair<DebtResolveCtrl, Parent> debtResolve,
                            boolean adminMode,
-                           Pair<StatisticsCtrl, Parent> statistics
+                            Pair<StatisticsCtrl, Parent> statistics
     ) {
         this.admin=false;
         this.user = new User();
@@ -145,9 +145,6 @@ public class MainCtrl {
         this.adminEventsCtrl = adminEvents.getKey();
         this.adminEvents = new Scene(adminEvents.getValue());
 
-        this.debtResolveCtrl = debtResolve.getKey();
-        this.debtResolve = new Scene(debtResolve.getValue());
-
         this.addTagCtrl = addTag.getKey();
         this.addTag = new Scene(addTag.getValue());
 
@@ -158,7 +155,6 @@ public class MainCtrl {
         this.statistics = new Scene(statistics.getValue());
 
         primaryStage.getIcons().add(new Image("client/icons/app-icon.png"));
-
 
         chooseFirstPage(adminMode);
 
