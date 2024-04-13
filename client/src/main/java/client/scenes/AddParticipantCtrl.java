@@ -1,7 +1,7 @@
 package client.scenes;
 
-import client.services.I18NService;
-import client.services.NotificationService;
+import client.services.I18N;
+import client.services.NotificationHelper;
 import client.utils.ServerUtils;
 import commons.Event;
 import commons.Participant;
@@ -19,8 +19,6 @@ public class AddParticipantCtrl implements Initializable {
     private final MainCtrl mainCtrl;
 
     private final ServerUtils server;
-
-    private final  NotificationService notificationService;
 
     @FXML
     private TextField email;
@@ -44,23 +42,19 @@ public class AddParticipantCtrl implements Initializable {
     private Label addParticipant;
     private Event event;
 
-    private final I18NService i18n;
-
     @Inject
-    public AddParticipantCtrl(MainCtrl mainCtrl, Event event, ServerUtils server, NotificationService notificationService, I18NService i18n) {
+    public AddParticipantCtrl(MainCtrl mainCtrl, Event event, ServerUtils server) {
         this.mainCtrl = mainCtrl;
         this.event = event;
         this.server = server;
-        this.i18n = i18n;
-        this.notificationService=notificationService;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        i18n.update(addButton);
-        i18n.update(cancelButton);
-        i18n.update(nameLabel);
-        i18n.update(addParticipant);
+        I18N.update(addButton);
+        I18N.update(cancelButton);
+        I18N.update(nameLabel);
+        I18N.update(addParticipant);
     }
 
     public void setEvent(Event event) {
@@ -74,23 +68,26 @@ public class AddParticipantCtrl implements Initializable {
         String participantIban = iban.getText();
         String participantBic = bic.getText();
         if (participantName.isEmpty()) {
-            String warningMessage = i18n.get("participant.add.error");
+            NotificationHelper notificationHelper = new NotificationHelper();
+            String warningMessage = I18N.get("participant.add.error");
             if (participantName.isEmpty()){
-                warningMessage += i18n.get("participant.add.error.name") + " ";
+                warningMessage += I18N.get("participant.add.error.name") + " ";
             }
             warningMessage += ")";
-            notificationService.showError(i18n.get("general.warning"), warningMessage);
+            notificationHelper.showError(I18N.get("general.warning"), warningMessage);
             return;
         }
 
         if (!participantEmail.isBlank()&&!participantEmail.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
-            String warningMessage = i18n.get("participant.add.error.message.email");
-            notificationService.showError(i18n.get("general.warning"), warningMessage);
+            String warningMessage = I18N.get("participant.add.error.message.email");
+            NotificationHelper notificationHelper = new NotificationHelper();
+            notificationHelper.showError(I18N.get("general.warning"), warningMessage);
             return;
         }
         if (!participantIban.isBlank()&&participantIban.length() != 34) {
-            String warningMessage = i18n.get("participant.add.error.message.iban");
-            notificationService.showError(i18n.get("general.warning"), warningMessage);
+            String warningMessage = I18N.get("participant.add.error.message.iban");
+            NotificationHelper notificationHelper = new NotificationHelper();
+            notificationHelper.showError(I18N.get("general.warning"), warningMessage);
             return;
         }
         Participant p = new Participant(

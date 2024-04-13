@@ -14,6 +14,9 @@ public class Config {
             if (file.createNewFile()){
                 System.out.println("User config file was created");
             }
+            else {
+                System.out.println("User config file already exists");
+            }
         } catch (IOException e) {
             System.out.println("Error creating user config file");
         }

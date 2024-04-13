@@ -197,14 +197,6 @@ public class ServerUtils {
                 .post(Entity.entity(exp, APPLICATION_JSON), Expense.class);
     }
 
-    public void removeExpense(UUID eventId, Expense expense) {
-        ClientBuilder.newClient(new ClientConfig())
-                .target(serverAddress).path("/api/events/" + eventId + "/expenses/"+expense.getId())
-                .request(APPLICATION_JSON)
-                .accept(APPLICATION_JSON)
-                .delete();
-    }
-
     public void updateExpense(UUID eventId, UUID expenseId, Expense exp){
         System.out.println(eventId);
         ClientBuilder.newClient(new ClientConfig())
@@ -330,6 +322,7 @@ public class ServerUtils {
         body.addProperty("from", from);
         body.addProperty("to", to);
         body.addProperty("when", when.toString());
+        System.out.println(body);
         return ClientBuilder.newClient(new ClientConfig())//
                 .target(serverAddress).path("api/convert")//
                 .request(APPLICATION_JSON)//

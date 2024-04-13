@@ -45,7 +45,7 @@ public class Expense {
     @JsonBackReference("event-expenses")
     private Event event;
 
-    @OneToMany(mappedBy = "expense", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "expense", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference ("expense-debts")
     @Expose
     private List<Debt> debts;
@@ -62,7 +62,6 @@ public class Expense {
     public String toString() {
         return "Expense{"
                 + "id=" + id
-                + ", title=" + title
                 + ", amount=" + amount
                 + ", date=" + date
                 + ", paidBy=" + paidBy

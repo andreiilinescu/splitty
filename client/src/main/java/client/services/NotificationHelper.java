@@ -1,5 +1,4 @@
 package client.services;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
@@ -17,7 +16,7 @@ public class NotificationHelper implements NotificationService {
     public void showError(String title, String message) {
         Alert errorAlert = new Alert(AlertType.ERROR);
         errorAlert.initModality(Modality.APPLICATION_MODAL);
-        errorAlert.setTitle((new I18N()).get("general.error"));
+        errorAlert.setTitle(I18N.get("general.error"));
         errorAlert.setHeaderText(title);
         errorAlert.setContentText(message);
         errorAlert.showAndWait();
