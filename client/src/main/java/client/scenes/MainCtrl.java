@@ -16,7 +16,6 @@
 package client.scenes;
 
 import client.services.I18N;
-import client.services.I18NService;
 import client.services.NotificationHelper;
 import client.services.NotificationService;
 import client.utils.Config;
@@ -88,8 +87,6 @@ public class MainCtrl {
     private Scene editTag;
 
     private NotificationService notificationService;
-
-    private final I18NService i18n = new I18N();
 
     public void initialize(Stage primaryStage, Pair<FirstTimeCtrl, Parent> firstTime,
                            Pair<EventOverviewCtrl, Parent> eventOverview,
@@ -294,7 +291,7 @@ public class MainCtrl {
     }
 
     public void showInviteView(Event event){
-        primaryStage.setTitle(i18n.get("window.invite"));
+        primaryStage.setTitle(I18N.get("window.invite"));
         inviteViewCtrl.setEvent(event);
         primaryStage.setScene(inviteView);
     }
@@ -329,28 +326,28 @@ public class MainCtrl {
         }
     }
     public void showFirstTimeScene(){
-        primaryStage.setTitle(i18n.get("window.setup"));
+        primaryStage.setTitle(I18N.get("window.setup"));
         primaryStage.setScene(this.firstTime);
     }
 
     public void showStartScene() {
-        primaryStage.setTitle(i18n.get("window.start"));
+        primaryStage.setTitle(I18N.get("window.start"));
         startCtrl.addRecentEvents();
         primaryStage.setScene(start);
     }
 
     public  void showSettings(){
-        primaryStage.setTitle(i18n.get("window.settings"));
+        primaryStage.setTitle(I18N.get("window.settings"));
         primaryStage.setScene(settings);
     }
 
     public void showLanguageOptions() {
-        primaryStage.setTitle(i18n.get("window.settings.language"));
+        primaryStage.setTitle(I18N.get("window.settings.language"));
         primaryStage.setScene(languages);
     }
 
     public void switchToEnglish() {
-        i18n.setLocale(Locale.ENGLISH);
+        I18N.setLocale(Locale.ENGLISH);
         startCtrl.setFlag("english");
         eventOverviewCtrl.setFlag("english");
         eventOverviewCtrl.refreshLanguage();
@@ -359,8 +356,8 @@ public class MainCtrl {
     }
 
     public void switchToDutch() {
-        Locale dutch = i18n.getSupportedLocales().get(1);
-        i18n.setLocale(dutch);
+        Locale dutch = I18N.getSupportedLocales().get(1);
+        I18N.setLocale(dutch);
         startCtrl.setFlag("dutch");
         eventOverviewCtrl.setFlag("dutch");
         eventOverviewCtrl.refreshLanguage();
@@ -369,8 +366,8 @@ public class MainCtrl {
     }
 
     public void switchToRomanian(){
-        Locale romanian = i18n.getSupportedLocales().get(2);
-        i18n.setLocale(romanian);
+        Locale romanian = I18N.getSupportedLocales().get(2);
+        I18N.setLocale(romanian);
         startCtrl.setFlag("romanian");
         eventOverviewCtrl.setFlag("romanian");
         eventOverviewCtrl.refreshLanguage();
@@ -379,24 +376,24 @@ public class MainCtrl {
     }
 
     public void switchToUserLanguage() {
-        Locale userLang = i18n.getSupportedLocales().get(3);
-        i18n.setLocale(userLang);
+        Locale userLang = I18N.getSupportedLocales().get(3);
+        I18N.setLocale(userLang);
         eventOverviewCtrl.refreshLanguage();
         this.user.setLanguage("Custom Language");
         Config.writeUserConfigFile(this.user);
     }
 
     public void uponLanguageSwitch(){
-        primaryStage.setTitle(i18n.get("window.settings.language"));
-        String switchLanguageHeader = i18n.get("language.infoLanguages");
-        String switchLanguageTitle = i18n.get("language.switchTitle");
-        String switchLanguageMessage = i18n.get("language.switchMessage");
+        primaryStage.setTitle(I18N.get("window.settings.language"));
+        String switchLanguageHeader = I18N.get("language.infoLanguages");
+        String switchLanguageTitle = I18N.get("language.switchTitle");
+        String switchLanguageMessage = I18N.get("language.switchMessage");
         NotificationHelper notificationHelper = new NotificationHelper();
         notificationHelper.informUser(switchLanguageTitle, switchLanguageMessage, switchLanguageHeader);
     }
 
     public  void showUserSettings(){
-        primaryStage.setTitle(i18n.get("window.settings.profile"));
+        primaryStage.setTitle(I18N.get("window.settings.profile"));
         userSettingsCtrl.refreshFields();
         primaryStage.setScene(userSettings);
 
@@ -404,20 +401,20 @@ public class MainCtrl {
 
     // TODO Both setEvent and refresh call the setEvent function
     public void showEventOverviewScene(Event newEvent){
-        primaryStage.setTitle(i18n.get("window.event.overview"));
+        primaryStage.setTitle(I18N.get("window.event.overview"));
         eventOverviewCtrl.refreshLanguage();
         eventOverviewCtrl.setEvent(newEvent);
         eventOverviewCtrl.refresh();
         primaryStage.setScene(eventOverview);
     }
     public void showAddParticipantScene(Event event) {
-        primaryStage.setTitle(i18n.get("window.event.participant.add"));
+        primaryStage.setTitle(I18N.get("window.event.participant.add"));
         addParticipantCtrl.setEvent(event);
         primaryStage.setScene(addParticipant);
     }
 
     public void showEditParticipantScene(Event event, Participant p) {
-        primaryStage.setTitle(i18n.get("window.event.participant.edit"));
+        primaryStage.setTitle(I18N.get("window.event.participant.edit"));
         editParticipantCtrl.setEvent(event);
         editParticipantCtrl.setParticipant(p);
         editParticipantCtrl.refresh();
@@ -425,19 +422,19 @@ public class MainCtrl {
     }
 
     public void showAdminEventsScene() {
-        primaryStage.setTitle(i18n.get("window.event.admin"));
+        primaryStage.setTitle(I18N.get("window.event.admin"));
         adminEventsCtrl.populateList();
         primaryStage.setScene(adminEvents);
     }
 
     public void showAddTagScene(Event e) {
-        primaryStage.setTitle(i18n.get("window.tags"));
+        primaryStage.setTitle(I18N.get("window.tags"));
         addTagCtrl.setUp(e.getId());
         primaryStage.setScene(addTag);
     }
 
     public void showEditTagScene(Tag t, Event e) {
-        primaryStage.setTitle(i18n.get("window.edit.tags"));
+        primaryStage.setTitle(I18N.get("window.edit.tags"));
         editTagCtrl.setUp(t, e);
         primaryStage.setScene(editTag);
     }
@@ -469,7 +466,7 @@ public class MainCtrl {
     }
 
     public void showAddExpense(){
-        primaryStage.setTitle(i18n.get("window.expense"));
+        primaryStage.setTitle(I18N.get("window.expense"));
         addExpenseCtrl.setup(eventOverviewCtrl.getEvent(), null);
         primaryStage.setScene(addExpense);
     }
@@ -481,7 +478,7 @@ public class MainCtrl {
     }
 
     public void showSettleDebt(Event event) {
-        primaryStage.setTitle(i18n.get("window.debt"));
+        primaryStage.setTitle(I18N.get("window.debt"));
         debtResolveCtrl.setEvent(event);
         debtResolveCtrl.refresh();
         primaryStage.setScene(debtResolve);

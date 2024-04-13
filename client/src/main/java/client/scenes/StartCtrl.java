@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.services.I18NService;
+import client.services.I18N;
 import client.services.NotificationService;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
@@ -44,25 +44,22 @@ public class StartCtrl implements Initializable {
     private Labeled joinButton;
     @FXML
     private Labeled recent;
-
-    private final I18NService i18n;
     @FXML
     private ImageView flagView;
     @Inject
-    public StartCtrl(ServerUtils server, MainCtrl mainCtrl, NotificationService notificationService, I18NService i18n) {
+    public StartCtrl(ServerUtils server, MainCtrl mainCtrl, NotificationService notificationService) {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.notificationService = notificationService;
-        this.i18n = i18n;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        i18n.update(newEventLabel);
-        i18n.update(buttonCreate);
-        i18n.update(joinEvent);
-        i18n.update(joinButton);
-        i18n.update(recent);
+        I18N.update(newEventLabel);
+        I18N.update(buttonCreate);
+        I18N.update(joinEvent);
+        I18N.update(joinButton);
+        I18N.update(recent);
         createEventField.setOnKeyPressed((event -> {
             switch (event.getCode()) {
                 case ENTER -> createEvent();
@@ -116,6 +113,8 @@ public class StartCtrl implements Initializable {
      */
     public  void addRecentEvents(){
         this.recentEventsGrid.getChildren().clear();
+        System.out.println(this.mainCtrl.getUser().getEvents()
+                .size() + " big blana");
         List<UUID> eventIDs=this.mainCtrl.getUser().getEvents();
         int i=0;
         for (int j=eventIDs.size()-1; j>=0 && i<3; j--){

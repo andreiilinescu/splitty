@@ -62,6 +62,8 @@ public class ExpenseController {
         }
         return ResponseEntity.badRequest().build();
     }
+
+    // TODO Handle who can delete an expense and who can't
     @DeleteMapping("/{id}")
     public ResponseEntity<Expense> remove(@PathVariable("eventId") UUID eventId, @PathVariable("id") UUID id) {
         Expense expense = service.deleteExpense(id);

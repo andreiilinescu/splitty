@@ -1,11 +1,10 @@
 package client.scenes;
 
-import client.services.I18NService;
-import client.services.NotificationService;
+import client.services.I18N;
+import client.services.NotificationHelper;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.*;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.control.TextInputDialog;
 
 import java.net.URL;
 import java.time.Instant;
@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Stream;
 
@@ -27,7 +28,6 @@ import java.util.stream.Stream;
 public class AddExpenseCtrl implements Initializable {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-    private final NotificationService notificationService;
     private Event event;
     private Expense expense;
 
@@ -45,11 +45,7 @@ public class AddExpenseCtrl implements Initializable {
     private DatePicker whenField;
     @FXML
     private VBox tagSelector, partialPaidSelector;
-    @FXML
-    private TextField titleField;
 
-    @FXML
-    private Text title;
     @FXML
     private Text paid;
     @FXML
@@ -61,29 +57,25 @@ public class AddExpenseCtrl implements Initializable {
     @FXML
     private Button abortButton;
 
-    private final I18NService i18n;
-
 
 
     @Inject
-    public AddExpenseCtrl(ServerUtils server, MainCtrl mainCtrl, Event event, NotificationService notificationService, I18NService i18n) {
+    public AddExpenseCtrl(ServerUtils server, MainCtrl mainCtrl, Event event) {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.event = event;
-        this.i18n = i18n;
-        this.notificationService=notificationService;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        i18n.update(paid);
-        i18n.update(when);
-        i18n.update(amount);
-        i18n.update(how);
-        i18n.update(abortButton);
-        i18n.update(allBox);
-        i18n.update(someBox);
-        //this.prepareTagDialog();
+        I18N.update(paid);
+        I18N.update(when);
+        I18N.update(amount);
+        I18N.update(how);
+        I18N.update(abortButton);
+        I18N.update(allBox);
+        I18N.update(someBox);
+        this.prepareTagDialog();
     }
     @FXML
     public void backToOverview(){
@@ -100,7 +92,7 @@ public class AddExpenseCtrl implements Initializable {
     public void checkSome(){
         System.out.println(paidBySelector.getValue());
         allBox.setSelected(false);
-        partialPaidSelector.setVisible(someBox.isSelected());
+        partialPaidSelector.setVisible(true);
     }
 
     public void setup(Event event, Expense e){
@@ -120,9 +112,8 @@ public class AddExpenseCtrl implements Initializable {
         tagSelector.getChildren().clear();
         for (int i = 1; i<event.getTags().size() + 1; i++){
             CheckBox checkbox = new CheckBox(event.getTags().get(i-1).getTag());
-            Platform.runLater(() -> tagSelector.getChildren().add(checkbox));
+            tagSelector.getChildren().add(checkbox);
         }
-        tagSelector.setVisible(true);
 
         partialPaidSelector.setVisible(false);
         partialPaidSelector.getChildren().clear();
@@ -137,13 +128,12 @@ public class AddExpenseCtrl implements Initializable {
     }
 
     private void showNewExpense() {
-        i18n.update(submitButton, "general.add");
+        I18N.update(submitButton, "general.add");
     }
 
     private void setupExistingExpense(Expense expense){
-        i18n.update(submitButton, "general.save");
+        I18N.update(submitButton, "general.save");
 
-        titleField.setText(expense.getTitle());
         paidBySelector.setValue(expense.getPaidBy().getName());
         howMuchField.setText(String.valueOf(expense.getAmount()));
         whenField.setValue(expense.getDate().atZone(ZoneId.systemDefault()).toLocalDate());
@@ -196,21 +186,24 @@ public class AddExpenseCtrl implements Initializable {
         //store who paid
         Participant paidBy = findParticipant(paidBySelector.getValue());
         if (paidBy == null) {
-            String warningMessage = i18n.get("expense.add.error.emptyPayee");
-            notificationService.showError(i18n.get("general.warning"), warningMessage);
+            NotificationHelper notificationHelper = new NotificationHelper();
+            String warningMessage = I18N.get("expense.add.error.emptyPayee");
+            notificationHelper.showError(I18N.get("general.warning"), warningMessage);
             return;
         }
 
         LocalDate date = whenField.getValue();
         if (date == null){
-            String warningMessage = i18n.get("expense.add.error.emptyDate");
-            notificationService.showError(i18n.get("general.warning"), warningMessage);
+            NotificationHelper notificationHelper = new NotificationHelper();
+            String warningMessage = I18N.get("expense.add.error.emptyDate");
+            notificationHelper.showError(I18N.get("general.warning"), warningMessage);
             return;
         }
 
         if (!someBox.isSelected() && !allBox.isSelected()){
-            String warningMessage = i18n.get("expense.add.error.emptySplit");
-            notificationService.showError(i18n.get("general.warning"), warningMessage);
+            NotificationHelper notificationHelper = new NotificationHelper();
+            String warningMessage = I18N.get("expense.add.error.emptySplit");
+            notificationHelper.showError(I18N.get("general.warning"), warningMessage);
             return;
         }
 
@@ -225,14 +218,16 @@ public class AddExpenseCtrl implements Initializable {
         }
 
         if (howMuchField.getText() == null || howMuchField.getText().isEmpty()){
-            String warningMessage = i18n.get("expense.add.error.emptyAmount");
-            notificationService.showError(i18n.get("general.warning"), warningMessage);
+            NotificationHelper notificationHelper = new NotificationHelper();
+            String warningMessage = I18N.get("expense.add.error.emptyAmount");
+            notificationHelper.showError(I18N.get("general.warning"), warningMessage);
             return;
         }
 
         if (Double.parseDouble(howMuchField.getText()) < 0.0){
-            String warningMessage = i18n.get("expense.add.error.negativeAmount");
-            notificationService.showError(i18n.get("general.warning"), warningMessage);
+            NotificationHelper notificationHelper = new NotificationHelper();
+            String warningMessage = I18N.get("expense.add.error.negativeAmount");
+            notificationHelper.showError(I18N.get("general.warning"), warningMessage);
             return;
         }
 
@@ -243,12 +238,23 @@ public class AddExpenseCtrl implements Initializable {
                 .filter(n -> n.getClass() == CheckBox.class)
                 .map(n -> ((CheckBox) n)).filter(CheckBox::isSelected)
                 .map(Labeled::getText).map(this::findTag).toList();
-        String title=titleField.getText();
-        if (title.isBlank()){
-            title=paidBy.getName() + " paid";
+
+        // TODO we leave tag implementation for next week
+
+        /*if (tags.isEmpty()){
+            NotificationHelper notificationHelper = new NotificationHelper();
+            String warningMessage = """
+                    You have not selected any tags
+                    please create a tag.
+                    Or select a pre-existing one.
+                    """;
+            notificationHelper.showError("Warning", warningMessage);
+            return;
         }
-        //create the expense
-        Expense newExpense = new Expense(title,
+         */
+
+        //create the expense, TODO : changed the name of event because event tags are not implemented yet
+        Expense newExpense = new Expense(paidBy.getName() + " paid for " + "EXPENSE TEMPLATE",
                 Double.parseDouble(howMuchField.getText()),
                 currencySelector.getValue(),
                 Instant.from(date.atStartOfDay(
@@ -298,19 +304,19 @@ public class AddExpenseCtrl implements Initializable {
         tagSelector.getChildren().add(new CheckBox(tag.getTag()));
     }
 
-//    public void openTagDialog(){
-//        tagDialog.getEditor().clear();
-//        Optional<String> result = tagDialog.showAndWait();
-//        result.ifPresent(this::createTag); // if ok is pressed check password
-//    }
+    public void openTagDialog(){
+        tagDialog.getEditor().clear();
+        Optional<String> result = tagDialog.showAndWait();
+        result.ifPresent(this::createTag); // if ok is pressed check password
+    }
 
-//    public void prepareTagDialog(){
-//        tagDialog=new TextInputDialog();
-//        tagDialog.setTitle(I18N.get("expense.add.createTag"));
-//        tagDialog.setContentText(I18N.get("expense.add.createTagText"));
-//        tagDialog.setHeaderText("");
-//        tagDialog.setGraphic(null);
-//    }
+    public void prepareTagDialog(){
+        tagDialog=new TextInputDialog();
+        tagDialog.setTitle(I18N.get("expense.add.createTag"));
+        tagDialog.setContentText(I18N.get("expense.add.createTagText"));
+        tagDialog.setHeaderText("");
+        tagDialog.setGraphic(null);
+    }
 
     public Participant findParticipant(String name){
         Participant r = null;

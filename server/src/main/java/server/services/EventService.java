@@ -96,13 +96,18 @@ public class EventService {
     }
 
     public void accept(EventLongPollingWrapper wrapper){
+        System.out.println("accepting!!!");
+        System.out.println(wrapper);
+        System.out.println("!!!!!");
         listeners.values().forEach(listener -> listener.accept(wrapper)); // notify all listeners of a new event
+        System.out.println("Accepted");
     }
 
     public void subscribe(DeferredResult<ResponseEntity<EventLongPollingWrapper>> deferredResult){
         Object key = new Object();
         listeners.put(key, wrapper -> {
             System.out.println(wrapper);
+            System.out.println(wrapper.getAction());
             deferredResult.setResult(ResponseEntity.ok(wrapper));
         });
         deferredResult.onCompletion(() -> {

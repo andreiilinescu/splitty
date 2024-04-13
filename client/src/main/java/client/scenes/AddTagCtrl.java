@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.services.I18NService;
+import client.services.I18N;
 import client.services.NotificationService;
 import commons.Event;
 import commons.Tag;
@@ -54,28 +54,25 @@ public class AddTagCtrl implements Initializable {
 
     private final NotificationService notificationService;
 
-    private final I18NService i18n;
-
     @Inject
-    public AddTagCtrl(MainCtrl mainCtrl, Event event, ServerUtils server, NotificationService notificationService, I18NService i18n) {
+    public AddTagCtrl(MainCtrl mainCtrl, Event event, ServerUtils server, NotificationService notificationService) {
         this.mainCtrl = mainCtrl;
         this.event = event;
         this.server = server;
         this.notificationService = notificationService;
-        this.i18n = i18n;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        i18n.update(manageTags);
-        i18n.update(backButtonLabel);
-        i18n.update(availableTagsLabel);
-        i18n.update(createTagLabel);
+        I18N.update(manageTags);
+        I18N.update(backButtonLabel);
+        I18N.update(availableTagsLabel);
+        I18N.update(createTagLabel);
     }
 
     public void setUp(UUID e) {
         this.event = server.getEvent(e);
-        List<BorderPane> tags = event.getTags().stream().map(this::pretty).toList();
+        List<BorderPane> tags = event.getTags().stream().map(t -> pretty(t)).toList();
 
         tagsPane.getChildren().clear();
         tagsPane.getChildren().addAll(tags);
@@ -119,14 +116,14 @@ public class AddTagCtrl implements Initializable {
         String name = tagName.getText();
 
         if (name.isEmpty()) {
-            String warningMessage = i18n.get("tag.add.error");
-            notificationService.showError(i18n.get("general.warning"), warningMessage);
+            String warningMessage = I18N.get("tag.add.error");
+            notificationService.showError(I18N.get("general.warning"), warningMessage);
             return;
         }
 
-        if (event.getTags().stream().map(Tag::getTag).toList().contains(name)) {
-            String warningMessage = i18n.get("tag.add.exists");
-            notificationService.showError(i18n.get("general.warning"), warningMessage);
+        if (event.getTags().stream().map(t -> t.getTag()).toList().contains(name)) {
+            String warningMessage = I18N.get("tag.add.exists");
+            notificationService.showError(I18N.get("general.warning"), warningMessage);
             return;
         }
 
