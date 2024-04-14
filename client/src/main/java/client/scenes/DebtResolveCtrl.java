@@ -47,6 +47,7 @@ public class DebtResolveCtrl implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         fromColumn.setCellValueFactory(new PropertyValueFactory<>("from"));
+        toColumn.setCellValueFactory(new PropertyValueFactory<>("to"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
         debtTable.setItems(tableEntries);
     }
@@ -60,9 +61,8 @@ public class DebtResolveCtrl implements Initializable {
         tableEntries.clear();
         DebtResolve.resolve(this.event)
                 .stream()
-                .map(item -> new DebtResolveTableEntry(item.from().getName(), item.to().getName(), item.amount()))
+                .map(DebtResolveTableEntry::from_result)
                 .forEach(tableEntries::add);
+        System.out.println(this.tableEntries);
     }
 }
-
-
